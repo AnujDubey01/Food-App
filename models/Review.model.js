@@ -7,9 +7,14 @@ const reviewSchema = new mongoose.Schema({
         ref : 'Restaurant',
         required : true
     },
-    user: {
+    customer: {
         type : mongoose.Schema.Types.ObjectId,
         ref : 'User',
+        required : true
+    },
+    oder: {
+        type : mongoose.Schema.Types.ObjectId,
+        ref : 'Order',
         required : true
     },
     rating: {
