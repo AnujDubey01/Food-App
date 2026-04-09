@@ -89,7 +89,7 @@ const loginController = async (req,res) => {
             success: true,
             message: 'User logged in successfully',
             token,
-            user
+            user,
         });
     } catch(error){
         res.status(500).json({
