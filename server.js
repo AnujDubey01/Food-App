@@ -3,13 +3,14 @@ const colors = require('colors');
 const cors = require('cors');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
+const authRoutes = require('./routes/authRoutes');
 
 //config env
 dotenv.config();
 
 // db connection
 const connectDB = require('./config/database');
-connectDB();
+
 
 // rest object
 const app = express();
@@ -32,7 +33,19 @@ app.get('/', (req, res) => {
 const PORT = process.env.PORT || 8080;
 
 // listen on port 8080
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
-});
+const startServer = async () => {
+  try {
+    await connectDB(); // ✅ connect DB first
+
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+
+  } catch (error) {
+    console.error('Failed to start server:', error.message);
+    process.exit(1);
+  }
+};
+
+startServer();
 
