@@ -7,6 +7,10 @@ const dotenv = require('dotenv');
 //config env
 dotenv.config();
 
+// db connection
+const connectDB = require('./config/database');
+connectDB();
+
 // rest object
 const app = express();
 
