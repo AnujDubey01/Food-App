@@ -1,4 +1,6 @@
 const User = require('../models/User.model.js');
+const jwt = require('jsonwebtoken');
+// const bcrypt = require('bcryptjs');
 
 const registerController = async (req, res,) => {
    try {
@@ -20,13 +22,16 @@ const registerController = async (req, res,) => {
             message: 'User already exists with this email',
         });
     }
+    // hashing password
+    // const salt = await bcrypt.genSalt(10);
+    // const hashedPassword = await bcrypt.hash(password, salt);
 
     // Create new user
     const newUser = await  User.create({
         firstName,
         lastName,
         email,
-        password,
+        password:// hashedPassword,
         phone,
         address,
         role
@@ -66,7 +71,7 @@ const loginController = async (req,res) => {
             });
         }
         // Check if password matches
-        const isMatch = await user.matchPassword(password);
+        const isMatch = await user.matchPassword(password, user.password);
 
         if (!isMatch) {
             return res.status(500).json({
@@ -74,9 +79,17 @@ const loginController = async (req,res) => {
                 message: 'Invalid  password',
             });
         }
+
+        // Generate JWT token 
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, {
+            expiresIn: process.env.JWT_EXPIRE,
+        });
+        
         res.status(200).json({
             success: true,
             message: 'User logged in successfully',
+            token,
+            user
         });
     } catch(error){
         res.status(500).json({
