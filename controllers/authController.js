@@ -31,7 +31,7 @@ const registerController = async (req, res,) => {
         firstName,
         lastName,
         email,
-        password:// hashedPassword,
+        password,// hashedPassword,
         phone,
         address,
         role
@@ -65,7 +65,7 @@ const loginController = async (req,res) => {
 
         const user = await User.findOne({ email }).select('+password');
         if (!user) {
-            return res.status(500).json({
+            return res.status(404).json({
                 success: false,
                 message: 'Invalid email or password',
             });
