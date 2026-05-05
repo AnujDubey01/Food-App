@@ -4,6 +4,7 @@ const cors = require('cors');
 const morgan = require('morgan');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
 
 //config env
 dotenv.config();
@@ -23,6 +24,7 @@ app.use(morgan('dev'));
 //import test routes
 app.use('/api/v1/test', require('./routes/testRoutes'));
 app.use('/api/v1/auth', require('./routes/authRoutes'));
+app.use('/api/v1/user', require('./routes/userRoutes'));
 
 //route 
 app.get('/', (req, res) => {
