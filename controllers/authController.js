@@ -62,12 +62,11 @@ const loginController = async (req,res) => {
         }
 
             // Check if user exists
-
         const user = await User.findOne({ email }).select('+password');
         if (!user) {
             return res.status(404).json({
                 success: false,
-                message: 'Invalid email or password',
+                message: 'Invalid email',
             });
         }
         // Check if password matches
