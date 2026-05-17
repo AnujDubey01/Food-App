@@ -5,6 +5,8 @@ const morgan = require('morgan');
 const dotenv = require('dotenv');
 const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
+const resturantRoutes = require('./routes/restaurantRoutes');
+
 
 //config env
 dotenv.config();
@@ -25,6 +27,7 @@ app.use(morgan('dev'));
 app.use('/api/v1/test', require('./routes/testRoutes'));
 app.use('/api/v1/auth', require('./routes/authRoutes'));
 app.use('/api/v1/user', require('./routes/userRoutes'));
+app.use('/api/v1/rest', require('./routes/restaurantRoutes'));
 
 //route 
 app.get('/', (req, res) => {

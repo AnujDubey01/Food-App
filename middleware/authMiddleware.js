@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const authMiddleware = (req, res, next) => {
+const protect  = (req, res, next) => {
     try {
         const authHeader = req.headers.authorization;
 
@@ -26,4 +26,13 @@ const authMiddleware = (req, res, next) => {
     }
 };
 
-module.exports = authMiddleware;
+const authorize   = (...roles) => {
+    return (req, res, next) => {
+        if (!roles.includes(req.user.role)) {
+            return res.status(403).json({ success: false, message: 'Not authorized to access this route' });
+        }
+        next();
+    };
+};
+
+module.exports = { protect, authorize };

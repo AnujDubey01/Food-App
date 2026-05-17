@@ -57,7 +57,7 @@ const UpdateUserController = async(req,res) => {
     } catch (error) {
         console.log(error);
         res.status(500).send({
-            seccess:false,
+            success:false,
             message: 'Error in update user controller: ' + error.message,
         })
     }
