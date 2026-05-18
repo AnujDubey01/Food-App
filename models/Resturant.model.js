@@ -6,7 +6,7 @@ const restaurantSchema = new mongoose.Schema({
         required: true,
         unique: true,
     },
-    owner: {
+    restaurant_owner: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'User',
         required: true, 

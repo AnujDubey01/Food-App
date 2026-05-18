@@ -12,7 +12,8 @@ const createRestaurant = async(req,res) => {
             phone, 
             email, 
             openingTime, 
-            closingTime
+            closingTime,
+             restaurant_owner: req.user.id
         });
 
         res.status(200).send({
@@ -80,7 +81,7 @@ const UpdateResturant = async(req,res) => {
                 });
             }
 
-            if (Resturant.owner.toString() !== req.user.id) { 
+            if  (Resturant.restaurant_owner.toString() !== req.user.id) { 
                 return res.status(403).send({
                     success: false, 
                     message: 'Not authorized to update this restaurant' 
@@ -106,4 +107,43 @@ const UpdateResturant = async(req,res) => {
             });
         }
 }
-module.exports = { createRestaurant  , getAllRestaurants , getRestaurantById, UpdateResturant};
+
+const deleteResturant = async(req,res) => {
+    try {
+        const Resturant = await Restaurant.findById(req.params.id);
+
+        if(!Resturant){
+            res.status(404).send({
+                 success: false, 
+                 message: 'Restaurant not found'
+            });
+        }
+
+       if (Resturant.restaurant_owner.toString() !== req.user.id){
+            res.status(403).send({ 
+                success: false, 
+                message: 'Not authorized to delete this restaurant' 
+            }); 
+        }
+
+        const deleteRes = await Restaurant.findByIdAndDelete(req.params.id);
+
+         res.status(200).json({ 
+            success: true, 
+            message: 'Restaurant deleted successfully' 
+        }); 
+
+
+    } catch (error) {
+        res.status(500).send({
+            "success": false,
+            "message": "error "
+        })
+    }
+}
+module.exports = { createRestaurant  , 
+                    getAllRestaurants , 
+                    getRestaurantById, 
+                    UpdateResturant ,
+                    deleteResturant
+                };
